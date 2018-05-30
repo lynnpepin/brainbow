@@ -3,7 +3,10 @@ import unittest as ut
 import itertools as it
 import cell
 from cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell
-
+import world
+from world import board_from_pic, pic_from_board
+from PIL import Image
+import numpy as np
 
 class CellsTest(ut.TestCase):
     def setUp(self):
@@ -74,42 +77,64 @@ class CellsTest(ut.TestCase):
                     rot(S),
                     cell.iterate(cell=S, neighbours=neighbours)
                     )
-
     # More complicated tests may be in order sometime?
 
-class WorldHelpersTest(ut.TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-    
-    def test_fromPic(self):
-        pass
-
-    def test_toPic(self):
-        pass
-
-    def test_rgb_to_board(self):
-        pass
-
-    def test_board_to_rgb(self):
-        pass
 
 class WorldTest(ut.TestCase):
     def setUp(self):
-        pass
+        fname0_0    = "test_images/00_step00.png"
+        fname0_1    = "test_images/00_step01.png"
+        self.rgb0_0_open = np.asarray(Image.open(fname0_0))
+        self.rgb0_1_open = np.asarray(Image.open(fname0_1))
+        self.board0_0 =np.array(
+                    [   [R,G,0,0],
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0,B,0,0]])
+        self.board0_1 =np.array(
+                    [   [G,B,0,R],
+                        [0,G,0,0],
+                        [0,0,0,0],
+                        [0,0,0,0],
+                        [0,0,0,0]])
 
     def tearDown(self):
         pass
     
-    def test_initialize(self):
-        pass
+    def test_board_from_pic(self):
+        self.assertTrue(
+            np.array_equiv(
+                board_from_pic(self.rgb0_0_open),
+                self.board0_0
+            )
+        )
+        self.assertTrue(
+            np.array_equiv(
+                board_from_pic(self.rgb0_1_open),
+                self.board0_1
+            )
+        )
 
-    def test_iterate(self):
-        pass
+    def test_pic_from_board(self):
+        self.assertTrue(
+            np.array_equiv(
+                self.rgb0_0_open,
+                pic_from_board(self.board0_0)
+            )
+        )
+        self.assertTrue(
+            np.array_equiv(
+                self.rgb0_1_open,
+                pic_from_board(self.board0_1)
+            )
+        )
 
-tests = [CellsTest]
+
+tests = [   CellsTest,
+            WorldTest
+            ]
+
 
 if __name__ == '__main__':
     for test in tests:

@@ -33,23 +33,22 @@ def cell_to_rgb(cell):
 
 def rgb_to_cell(color):
     """ Convert, returns a 3-tuple RGB value to a cell
-
+    
     # Arguments:
         color: A 3-tuple representing
-
+    
     # Returns:
         An integer {0, R, G, B} representing a cell
     """
-
-    if color == (255, 255, 255):
+    if np.array_equal(color, (255, 255, 255)):
         return 0
-    elif color == (255, 0, 0):
+    elif np.array_equal(color, (255, 0, 0)):
         return R
-    elif color == (0, 255, 0):
+    elif np.array_equal(color, (0, 255, 0)):
         return G
-    elif color == (0, 0, 255):
+    elif np.array_equal(color, (0, 0, 255)):
         return B
-    elif color == (0, 0, 0):
+    elif np.array_equal(color, (0, 0, 0)):
         return -1
 
 def rot(cell):
