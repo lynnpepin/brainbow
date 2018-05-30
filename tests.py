@@ -138,12 +138,12 @@ class WorldTest(ut.TestCase):
         self.assertEqual(self.world._gen, 0)
 
     def test_get_neighbours(self):
-        neighbours = self.world._get_neighbours(1, 2)
+        neighbours = self.world._get_neighbours(self.world._board, 1, 2)
         self.assertEqual(neighbours.count((0,0)), 2)
         self.assertEqual(neighbours.count((0,G)), 1)
         self.assertEqual(neighbours.count((0,B)), 1)
         
-        neighbours = self.world._get_neighbours(2, 0)
+        neighbours = self.world._get_neighbours(self.world._board, 2, 0)
         self.assertEqual(neighbours.count((G,R)), 1)
         self.assertEqual(neighbours.count((0,R)), 1)
         self.assertEqual(neighbours.count((0,0)), 2)
@@ -152,8 +152,9 @@ class WorldTest(ut.TestCase):
     def test_world_iterate(self):
         self.world.iterate()
         self.assertTrue(
-            np.array_equiv( self.world._board, self.board0_1 )
+            np.array_equal( self.world._board, self.board0_1 )
         )
+        
         self.assertEqual(self.world._gen, 1)
 
 tests = [   CellsTest,

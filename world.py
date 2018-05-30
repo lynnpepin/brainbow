@@ -5,15 +5,15 @@
     pic_from_board(board):  Converts a 2D array of cells (ints) to a 2D array of RGB-tuples
 
 # TODO:
+    Rename cell.iterate() as iterate_cell()
+    Rename ._gen to generation
+    Document
     save_pic(filename)
     load_pic(filename)
-    
-    World._get_neighbours()
-    
 
 """
 
-from cell import cell_to_rgb, rgb_to_cell
+from cell import cell_to_rgb, rgb_to_cell, iterate as cell_iterate
 import numpy as np
 
 def board_from_pic(image):
@@ -35,10 +35,17 @@ class World():
         self._h, self._w = board.shape
         self._board = board
     
-    def _get_neighbours(self, x, y):
-        return ((self._board[y, (x+1)%self._w], self._board[y, (x+2)%self._w]),
-                (self._board[y, (x-1)%self._w], self._board[y, (x-2)%self._w]),
-                (self._board[(y-1)%self._h, x], self._board[(y-2)%self._h, x]),
-                (self._board[(y+1)%self._h, x], self._board[(y+2)%self._h, x]))
+    def _get_neighbours(self, board, x, y):
+        return ((board[y, (x+1)%self._w], board[y, (x+2)%self._w]),
+                (board[y, (x-1)%self._w], board[y, (x-2)%self._w]),
+                (board[(y-1)%self._h, x], board[(y-2)%self._h, x]),
+                (board[(y+1)%self._h, x], board[(y+2)%self._h, x]))
     
-    #def iterate():
+    def iterate(self):
+        board_copy = np.copy(self._board)
+        for y, row in enumerate(board_copy):
+            for x, cell in enumerate(row):
+                neighbours = self._get_neighbours(board_copy, x, y)
+                self._board[y,x] = cell_iterate(cell, neighbours)
+        self._gen += 1
+                
