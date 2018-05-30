@@ -77,6 +77,38 @@ class CellsTest(ut.TestCase):
 
     # More complicated tests may be in order sometime?
 
+def WorldHelpersTest(ut.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+    
+    def test_fromPic(self):
+        pass
+
+    def test_toPic(self):
+        pass
+
+    def test_rgb_to_board(self):
+        pass
+
+    def test_board_to_rgb(self):
+        pass
+
+def WorldTest(ut.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+    
+    def test_initialize(self):
+        pass
+
+    def test_iterate(self):
+        pass
+
 tests = [CellsTest]
 
 if __name__ == '__main__':
