@@ -17,14 +17,7 @@ G = 2
 B = 3
 
 def cell_to_rgb(cell):
-    """ Convert, returns a cell to a 3-tuple RGB value.
-
-    # Arguments:
-        cell: Integer in {0, R, G, B}
-
-    # Returns:
-        A 3-tuple representing a color. (255,0,0) for R, etc.
-    """
+    """ Returns a 3-int RGB tuple corresponding to the (int) cell. """
 
     if cell == 0:
         return (255, 255, 255)
@@ -32,14 +25,7 @@ def cell_to_rgb(cell):
         return (255*(cell == R), 255*(cell == G), 255*(cell == B))
 
 def rgb_to_cell(color):
-    """ Convert, returns a 3-tuple RGB value to a cell
-    
-    # Arguments:
-        color: A 3-tuple representing
-    
-    # Returns:
-        An integer {0, R, G, B} representing a cell
-    """
+    """ Returns the cell (int) corresponding to the 3-int RGB tuple. """
     if np.array_equal(color, (255, 255, 255)):
         return 0
     elif np.array_equal(color, (255, 0, 0)):
@@ -52,14 +38,8 @@ def rgb_to_cell(color):
         return -1
 
 def rot(cell):
-    """ Returns the rotation of a cell.
+    """ Returns the hue rotation of a int cell.
     rot(R) = G, rot(G) = B, rot(B) = R, rot(0) = 0
-
-    # Arguments:
-        cell: Integer in {0, R, G, B}
-
-    # Returns:
-        An integer {0, R, G, B} representing a cell
 
     # Note:
         rot(S) is written S+,
@@ -71,7 +51,7 @@ def rot(cell):
         return (cell%3)+1
 
 def dot(cellA, cellB):
-    """ Performs the dot of two cells (nonstandard)
+    """ Performs the dot of two cells
     With R, G, B, defined as above, dot(A,B) = A xor B
 
     # Function specification:

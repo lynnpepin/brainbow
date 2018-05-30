@@ -4,7 +4,7 @@ import itertools as it
 import cell
 from cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell, iterate_cell
 import world
-from world import board_from_pic, pic_from_board, _get_neighbours, iterate_board
+from world import board_from_pic, pic_from_board, _get_neighbours, iterate_board, save_pic, load_pic
 from PIL import Image
 import numpy as np
 
@@ -129,6 +129,13 @@ class WorldTest(ut.TestCase):
                 pic_from_board(self.board0_1)
             )
         )
+        
+    def test_pic_io(self):
+        save_pic(self.board0_0, "test_images/savetest.png")
+        b0 = load_pic("test_images/savetest.png")
+        self.assertTrue(
+            np.array_equal(b0, self.board0_0)
+        )
 
     def test_get_neighbours(self):
         neighbours = _get_neighbours(self.board0_0, x=1, y=2, w=4, h=5)
@@ -142,10 +149,13 @@ class WorldTest(ut.TestCase):
         self.assertEqual(neighbours.count((0,0)), 2)
 
     def test_world_iterate(self):
-        iterate_board(self.board0_0)
         self.assertTrue(
-            np.array_equal( self.board0_0, self.board0_1 )
+            np.array_equal( iterate_board(self.board0_0), self.board0_1 )
         )
+        # Make sure that it didn't modify board0_0:
+        self.assertFalse(
+            np.array_equal(self.board0_0, self.board0_1)
+            )
 
 
 tests = [   CellsTest,
