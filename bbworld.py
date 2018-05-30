@@ -1,4 +1,4 @@
-""" world.py
+""" bbworld.py
 
 # Provides:
     board_from_pic(image):      Converts a 2D array of RGB-tuples to a 2D array of cells (ints)

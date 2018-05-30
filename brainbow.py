@@ -1,5 +1,5 @@
 import argparse
-from world import save_pic, load_pic, iterate_board
+from bbworld import save_pic, load_pic, iterate_board
 
 def _save_iteration(savename, save_board, iteration, max_iterations):
     if (savename):

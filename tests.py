@@ -3,8 +3,8 @@ import unittest as ut
 import itertools as it
 import cell
 from cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell, iterate_cell
-import world
-from world import board_from_pic, pic_from_board, _get_neighbours, iterate_board, save_pic, load_pic
+import bbworld
+from bbworld import board_from_pic, pic_from_board, _get_neighbours, iterate_board, save_pic, load_pic
 from PIL import Image
 import numpy as np
 
@@ -148,7 +148,7 @@ class WorldTest(ut.TestCase):
         self.assertEqual(neighbours.count((0,R)), 1)
         self.assertEqual(neighbours.count((0,0)), 2)
 
-    def test_world_iterate(self):
+    def test_bbworld_iterate(self):
         self.assertTrue(
             np.array_equal( iterate_board(self.board0_0), self.board0_1 )
         )
