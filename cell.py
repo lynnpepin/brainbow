@@ -35,7 +35,7 @@ def rgb_to_cell(color):
     """ Convert, returns a 3-tuple RGB value to a cell
 
     # Arguments:
-        color: A 3-tuple representing 
+        color: A 3-tuple representing
 
     # Returns:
         An integer {0, R, G, B} representing a cell
@@ -115,7 +115,7 @@ def iterate(cell, neighbours):
 
     # Result R
     R = 0
-    # Outgoing value E  
+    # Outgoing value E
     E = 0
 
     for A1, A2 in neighbours:

@@ -1,8 +1,8 @@
 import numpy as np
 import unittest as ut
 import itertools as it
-import Cell
-from Cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell
+import cell
+from cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell
 
 
 class CellsTest(ut.TestCase):
@@ -52,7 +52,7 @@ class CellsTest(ut.TestCase):
     def test_iterate_cell_on_blanks(self):
         for S in self.colors:
             for neighbours in it.combinations_with_replacement(self.blanks, 4):
-                self.assertEqual(0, Cell.iterate(cell=S, neighbours=neighbours))
+                self.assertEqual(0, cell.iterate(cell=S, neighbours=neighbours))
 
 
     def test_iterate_incoming(self):
@@ -62,7 +62,7 @@ class CellsTest(ut.TestCase):
                     neighbours = (t, ) + blank_neighbours
                     self.assertEqual(
                         dot(S,t[0]),
-                        Cell.iterate(cell=S, neighbours = neighbours)
+                        cell.iterate(cell=S, neighbours = neighbours)
                     )
 
     def test_iterate_outgoing(self):
@@ -72,12 +72,12 @@ class CellsTest(ut.TestCase):
                 #print(S, neighbours)
                 self.assertEqual(
                     rot(S),
-                    Cell.iterate(cell=S, neighbours=neighbours)
+                    cell.iterate(cell=S, neighbours=neighbours)
                     )
 
     # More complicated tests may be in order sometime?
 
-def WorldHelpersTest(ut.TestCase):
+class WorldHelpersTest(ut.TestCase):
     def setUp(self):
         pass
 
@@ -96,7 +96,7 @@ def WorldHelpersTest(ut.TestCase):
     def test_board_to_rgb(self):
         pass
 
-def WorldTest(ut.TestCase):
+class WorldTest(ut.TestCase):
     def setUp(self):
         pass
 
