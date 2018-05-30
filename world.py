@@ -3,17 +3,16 @@
 # Provides:
     board_from_pic(image):  Converts a 2D array of RGB-tuples to a 2D array of cells (ints)
     pic_from_board(board):  Converts a 2D array of cells (ints) to a 2D array of RGB-tuples
+    World(board):           
 
 # TODO:
-    Rename cell.iterate() as iterate_cell()
-    Rename ._gen to generation
     Document
     save_pic(filename)
     load_pic(filename)
 
 """
 
-from cell import cell_to_rgb, rgb_to_cell, iterate as cell_iterate
+from cell import cell_to_rgb, rgb_to_cell, iterate_cell
 import numpy as np
 
 def board_from_pic(image):
@@ -27,25 +26,17 @@ def pic_from_board(board):
             outimage[y,x] = cell_to_rgb(cell)
     return outimage
 
+def _get_neighbours(board, x, y, w, h):
+    return ((board[y, (x+1)%w], board[y, (x+2)%w]),
+            (board[y, (x-1)%w], board[y, (x-2)%w]),
+            (board[(y-1)%h, x], board[(y-2)%h, x]),
+            (board[(y+1)%h, x], board[(y+2)%h, x]))
 
-
-class World():
-    def __init__(self, board):
-        self._gen = 0
-        self._h, self._w = board.shape
-        self._board = board
-    
-    def _get_neighbours(self, board, x, y):
-        return ((board[y, (x+1)%self._w], board[y, (x+2)%self._w]),
-                (board[y, (x-1)%self._w], board[y, (x-2)%self._w]),
-                (board[(y-1)%self._h, x], board[(y-2)%self._h, x]),
-                (board[(y+1)%self._h, x], board[(y+2)%self._h, x]))
-    
-    def iterate(self):
-        board_copy = np.copy(self._board)
-        for y, row in enumerate(board_copy):
-            for x, cell in enumerate(row):
-                neighbours = self._get_neighbours(board_copy, x, y)
-                self._board[y,x] = cell_iterate(cell, neighbours)
-        self._gen += 1
-                
+def iterate_board(board):
+    board_copy = np.copy(board)
+    h, w = board.shape
+    for y, row in enumerate(board_copy):
+        for x, cell in enumerate(row):
+            neighbours = _get_neighbours(board_copy, x, y, w, h)
+            board[y,x] = iterate_cell(cell, neighbours)
+    return board

@@ -5,7 +5,7 @@
     rgb_to_cell(color): Convert, returns a 3-tuple RGB value to a cell
     rot(cell):          Returns the rotation of a cell (nonstandard)
     dot(cellA, cellB):  Performs the dot of two cells (nonstandard)
-    iterate(cell, neighbours):
+    iterate_cell(cell, neighbours):
                         Iterates a cell based on it's 8-closest
                         orthogonal neighbours.
 """
@@ -95,7 +95,7 @@ def dot(cellA, cellB):
 
     return cellA^cellB
 
-def iterate(cell, neighbours):
+def iterate_cell(cell, neighbours):
     """
     # Arguments:
         cell: Integer in {0, R, G, B}

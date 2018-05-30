@@ -2,9 +2,9 @@ import numpy as np
 import unittest as ut
 import itertools as it
 import cell
-from cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell
+from cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell, iterate_cell
 import world
-from world import board_from_pic, pic_from_board, World
+from world import board_from_pic, pic_from_board, _get_neighbours, iterate_board
 from PIL import Image
 import numpy as np
 
@@ -55,7 +55,7 @@ class CellsTest(ut.TestCase):
     def test_iterate_cell_on_blanks(self):
         for S in self.colors:
             for neighbours in it.combinations_with_replacement(self.blanks, 4):
-                self.assertEqual(0, cell.iterate(cell=S, neighbours=neighbours))
+                self.assertEqual(0, iterate_cell(cell=S, neighbours=neighbours))
 
 
     def test_iterate_incoming(self):
@@ -65,7 +65,7 @@ class CellsTest(ut.TestCase):
                     neighbours = (t, ) + blank_neighbours
                     self.assertEqual(
                         dot(S,t[0]),
-                        cell.iterate(cell=S, neighbours = neighbours)
+                        iterate_cell(cell=S, neighbours = neighbours)
                     )
 
     def test_iterate_outgoing(self):
@@ -75,7 +75,7 @@ class CellsTest(ut.TestCase):
                 #print(S, neighbours)
                 self.assertEqual(
                     rot(S),
-                    cell.iterate(cell=S, neighbours=neighbours)
+                    iterate_cell(cell=S, neighbours=neighbours)
                     )
     # More complicated tests may be in order sometime?
 
@@ -98,7 +98,6 @@ class WorldTest(ut.TestCase):
                         [0,0,0,0],
                         [0,0,0,0],
                         [0,0,0,0]])
-        self.world = World(self.board0_0)
 
     def tearDown(self):
         pass
@@ -131,31 +130,23 @@ class WorldTest(ut.TestCase):
             )
         )
 
-    def test_world_initialize(self):
-        self.assertTrue(
-            np.array_equiv( self.world._board, self.board0_0 )
-        )
-        self.assertEqual(self.world._gen, 0)
-
     def test_get_neighbours(self):
-        neighbours = self.world._get_neighbours(self.world._board, 1, 2)
+        neighbours = _get_neighbours(self.board0_0, x=1, y=2, w=4, h=5)
         self.assertEqual(neighbours.count((0,0)), 2)
         self.assertEqual(neighbours.count((0,G)), 1)
         self.assertEqual(neighbours.count((0,B)), 1)
         
-        neighbours = self.world._get_neighbours(self.world._board, 2, 0)
+        neighbours = _get_neighbours(self.board0_0, x=2, y=0, w=4, h=5)
         self.assertEqual(neighbours.count((G,R)), 1)
         self.assertEqual(neighbours.count((0,R)), 1)
         self.assertEqual(neighbours.count((0,0)), 2)
-        
 
     def test_world_iterate(self):
-        self.world.iterate()
+        iterate_board(self.board0_0)
         self.assertTrue(
-            np.array_equal( self.world._board, self.board0_1 )
+            np.array_equal( self.board0_0, self.board0_1 )
         )
-        
-        self.assertEqual(self.world._gen, 1)
+
 
 tests = [   CellsTest,
             WorldTest
