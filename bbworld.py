@@ -24,7 +24,7 @@ def pic_from_board(board):
     return the h*w*3 numpy array 'image'.
     """
     h, w = board.shape
-    outimage = np.zeros(shape=(5,4,3),dtype=np.uint8)
+    outimage = np.zeros(shape=(h,w,3),dtype=np.uint8)
     for y, row in enumerate(board):
         for x, cell in enumerate(row):
             outimage[y,x] = cell_to_rgb(cell)
