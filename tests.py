@@ -6,7 +6,6 @@ from cell import R, G, B, rot, dot, cell_to_rgb, rgb_to_cell, iterate_cell
 import bbworld
 from bbworld import board_from_pic, pic_from_board, _get_neighbours, iterate_board, save_pic, load_pic
 from PIL import Image
-import numpy as np
 
 class CellsTest(ut.TestCase):
     def setUp(self):
